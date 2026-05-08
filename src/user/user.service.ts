@@ -32,7 +32,7 @@ export class UserService {
     }
 
     async findOne(id: number) {
-        const user = this.prisma.user.findFirst({ where: { id } });
+        const user = await this.prisma.user.findFirst({ where: { id } });
 
         if (!user) throw new NotFoundException();
 
