@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -21,6 +22,8 @@ export class UserController {
         summary: 'Listar usuários',
         description: 'Listar todos os usuários.',
     })
+    @ApiBearerAuth('access-token')
+    @UseGuards(JwtAuthGuard)
     @Get()
     async findAll() {
         return this.userService.findAll();
@@ -30,6 +33,8 @@ export class UserController {
         summary: 'Encontrar usuário',
         description: 'Encontrar um usuário pelo id',
     })
+    @ApiBearerAuth('access-token')
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     async findOne(@Param('id', ParseIntPipe) id: number) {
         return this.userService.findOne(id);

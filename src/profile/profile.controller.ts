@@ -9,7 +9,7 @@ import {
     Post,
     UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { CreateSocialLinkDto } from './dto/create-social-link.dto';
@@ -19,6 +19,7 @@ import { type AuthenticatedUser } from 'src/auth/types/authenticated-user';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Profile')
+@ApiBearerAuth('access-token')
 @UseGuards(JwtAuthGuard)
 @Controller('profile')
 export class ProfileController {
