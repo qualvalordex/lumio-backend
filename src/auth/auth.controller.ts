@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -14,8 +15,8 @@ export class AuthController {
         description: 'Autentica o usuário na plataforma.',
     })
     @Post('login')
-    login(@Body() body: { email: string; password: string }) {
-        return this.authService.login(body.email, body.password);
+    login(@Body() dto: LoginDto) {
+        return this.authService.login(dto);
     }
 
     @ApiOperation({
