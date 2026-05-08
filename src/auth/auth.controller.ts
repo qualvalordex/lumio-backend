@@ -2,8 +2,9 @@ import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
+import { type AuthenticatedUser } from './types/authenticated-user';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -23,9 +24,10 @@ export class AuthController {
         summary: 'Obter meus dados',
         description: 'Retorna os dados do usuário logado.',
     })
+    @ApiBearerAuth('access-token')
     @UseGuards(JwtAuthGuard)
     @Post('me')
-    me(@CurrentUser() user: any) {
+    me(@CurrentUser() user: AuthenticatedUser) {
         return user;
     }
 }
