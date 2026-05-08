@@ -1,0 +1,9 @@
+export enum SocialLinkType {
+    INSTAGRAM = 'INSTAGRAM',
+    FACEBOOK = 'FACEBOOK',
+    LINKEDIN = 'LINKEDIN',
+    TIKTOK = 'TIKTOK',
+    PINTEREST = 'PINTEREST',
+    BEHANCE = 'BEHANCE',
+    WEBSITE = 'WEBSITE',
+}
