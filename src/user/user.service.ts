@@ -38,4 +38,12 @@ export class UserService {
 
         return user;
     }
+
+    async findByEmail(email: string) {
+        const user = await this.prisma.user.findFirst({ where: { email } });
+
+        if (!user) throw new NotFoundException();
+
+        return user;
+    }
 }
