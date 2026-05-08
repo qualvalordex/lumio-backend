@@ -1,0 +1,11 @@
+model Profile {
+    id        Int     @id @default(autoincrement())
+    bio       String?
+    avatarUrl String?
+    phone     String?
+
+    userId Int  @unique
+    user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    socialLinks SocialLink[]
+}

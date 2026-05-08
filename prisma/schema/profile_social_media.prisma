@@ -1,0 +1,21 @@
+enum SocialMediaType {
+    INSTAGRAM
+    FACEBOOK
+    LINKEDIN
+    TIKTOK
+    PINTEREST
+    BEHANCE
+    WEBSITE
+}
+
+model SocialLink {
+    id   Int             @id @default(autoincrement())
+    type SocialMediaType
+    url  String          @db.VarChar(2048)
+
+    profileId Int
+    profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+    @@unique([profileId, type])
+    @@index([profileId])
+}
