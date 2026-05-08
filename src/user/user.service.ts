@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { User } from 'generated/prisma';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user-dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -12,8 +13,10 @@ export class UserService {
 
         if (user) throw new ConflictException();
 
+        const hashedPassword = await bcrypt.hash(dto.password, 10);
+
         return this.prisma.user.create({
-            data: dto,
+            data: { ...dto, password: hashedPassword },
             select: {
                 id: true,
                 name: true,
