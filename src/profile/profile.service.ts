@@ -46,4 +46,35 @@ export class ProfileService {
 
         return this.prisma.socialLink.create({ data: { ...dto, profileId: profile.id } });
     }
+
+    async updateSocialLink(userId: number, socialLinkId: number, url: string) {
+        const profile = await this.prisma.profile.findUnique({ where: { userId } });
+
+        if (!profile) throw new NotFoundException();
+
+        const socialLink = await this.prisma.socialLink.findFirst({
+            where: { id: socialLinkId, profileId: profile.id },
+        });
+
+        if (!socialLink) throw new NotFoundException();
+
+        return this.prisma.socialLink.update({
+            where: { id: socialLinkId },
+            data: { url },
+        });
+    }
+
+    async deleteSocialLink(userId: number, socialLinkId: number) {
+        const profile = await this.prisma.profile.findUnique({ where: { userId } });
+
+        if (!profile) throw new NotFoundException();
+
+        const socialLink = await this.prisma.socialLink.findFirst({
+            where: { id: socialLinkId, profileId: profile.id },
+        });
+
+        if (!socialLink) throw new NotFoundException();
+
+        return this.prisma.socialLink.delete({ where: { id: socialLinkId } });
+    }
 }
