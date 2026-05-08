@@ -7,6 +7,18 @@ import { CreateSocialLinkDto } from './dto/create-social-link.dto';
 export class ProfileService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async createEmpty(userId: number) {
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
+        if (!user) throw new NotFoundException();
+
+        return this.prisma.profile.create({
+            data: {
+                userId,
+            },
+        });
+    }
+
     async create(userId: number, dto: CreateProfileDto) {
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
 
