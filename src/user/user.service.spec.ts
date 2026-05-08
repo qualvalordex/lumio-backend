@@ -4,6 +4,10 @@ import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 
+jest.mock('bcrypt', () => ({
+    hash: jest.fn(),
+}));
+
 describe('UserService', () => {
     let sut: UserService;
     let prisma: PrismaService;
@@ -30,7 +34,7 @@ describe('UserService', () => {
 
     it('should create an user', async () => {
         jest.spyOn(prisma.user, 'findFirst').mockResolvedValue(null);
-        jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashed-password' as never);
+        (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-password' as never);
 
         jest.spyOn(prisma.user, 'create').mockResolvedValue({
             id: 1,
