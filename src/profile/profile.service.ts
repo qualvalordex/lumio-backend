@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
+import { CreateSocialLinkDto } from './dto/create-social-link.dto';
 
 @Injectable()
 export class ProfileService {
@@ -36,5 +37,13 @@ export class ProfileService {
         if (!profile) throw new NotFoundException();
 
         return profile;
+    }
+
+    async createSocialLink(userId: number, dto: CreateSocialLinkDto) {
+        const profile = await this.prisma.profile.findUnique({ where: { userId } });
+
+        if (!profile) throw new NotFoundException();
+
+        return this.prisma.socialLink.create({ data: { ...dto, profileId: profile.id } });
     }
 }
