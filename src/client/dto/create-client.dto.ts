@@ -14,14 +14,14 @@ export class CreateClientDto {
     @IsString()
     cpfCnpj!: string;
 
-    @ApiProperty({ minimum: 1, maximum: 12 })
+    @ApiProperty({ type: 'integer', minimum: 1, maximum: 12 })
     @IsInt()
     @Min(1)
     @Max(12)
     @IsOptional()
     birthMonth?: number;
 
-    @ApiProperty({ minimum: 1, maximum: 31 })
+    @ApiProperty({ type: 'integer', minimum: 1, maximum: 31 })
     @IsInt()
     @Min(1)
     @Max(31)
