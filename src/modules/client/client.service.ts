@@ -45,6 +45,14 @@ export class ClientService {
     }
 
     async update(userId: number, clientId: number, dto: UpdateClientDto) {
+        if (dto.cpfCnpj) {
+            const cpfCnpj = validateCpfCnpj(dto.cpfCnpj);
+
+            if (!cpfCnpj.valid) throw new BadRequestException();
+
+            dto.cpfCnpj = cpfCnpj.formatted;
+        }
+
         const client = await this.prismaService.client.findUnique({ where: { id: clientId } });
 
         if (!client || userId != client.userId) throw new BadRequestException();
