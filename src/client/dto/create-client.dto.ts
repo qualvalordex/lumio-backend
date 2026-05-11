@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class CreateClientDto {
     @ApiProperty()
@@ -13,6 +13,20 @@ export class CreateClientDto {
     @ApiProperty()
     @IsString()
     cpfCnpj!: string;
+
+    @ApiProperty({ minimum: 1, maximum: 12 })
+    @IsInt()
+    @Min(1)
+    @Max(12)
+    @IsOptional()
+    birthMonth?: number;
+
+    @ApiProperty({ minimum: 1, maximum: 31 })
+    @IsInt()
+    @Min(1)
+    @Max(31)
+    @IsOptional()
+    birthDay?: number;
 
     @ApiProperty()
     @IsString()
