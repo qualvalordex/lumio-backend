@@ -7,6 +7,7 @@ import {
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { validateCpfCnpj } from 'src/shared/utils';
+import { UpdateClientDto } from './dto/update-client.dto';
 
 @Injectable()
 export class ClientService {
@@ -41,5 +42,18 @@ export class ClientService {
         });
 
         return createdClient;
+    }
+
+    async update(userId: number, clientId: number, dto: UpdateClientDto) {
+        const client = await this.prismaService.client.findUnique({ where: { id: clientId } });
+
+        if (!client || userId != client.userId) throw new BadRequestException();
+
+        const updatedClient = await this.prismaService.client.update({
+            data: dto,
+            where: { id: client.id },
+        });
+
+        return updatedClient;
     }
 }
