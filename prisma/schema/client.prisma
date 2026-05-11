@@ -2,6 +2,7 @@ model Client {
     id        Int      @default(autoincrement())
     name      String
     phone     String
+    cpfCnpj   String?
     email     String?
     notes     String?
     createdAt DateTime @default(now())
