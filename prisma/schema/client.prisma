@@ -1,12 +1,14 @@
 model Client {
-    id        Int      @id @default(autoincrement())
+    id        Int       @id @default(autoincrement())
     name      String
     phone     String
     cpfCnpj   String
+    birthMonth Int?
+    birthDay   Int?
     email     String?
     notes     String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
 
     userId Int
     user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
