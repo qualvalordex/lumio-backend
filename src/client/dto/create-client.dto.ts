@@ -12,7 +12,7 @@ export class CreateClientDto {
 
     @ApiProperty()
     @IsString()
-    cpfCnpj?: string;
+    cpfCnpj!: string;
 
     @ApiProperty()
     @IsString()
