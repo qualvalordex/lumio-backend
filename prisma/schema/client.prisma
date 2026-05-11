@@ -2,7 +2,7 @@ model Client {
     id        Int      @id @default(autoincrement())
     name      String
     phone     String
-    cpfCnpj   String   @unique
+    cpfCnpj   String
     email     String?
     notes     String?
     createdAt DateTime @default(now())
@@ -10,4 +10,6 @@ model Client {
 
     userId Int
     user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, cpfCnpj])
 }
