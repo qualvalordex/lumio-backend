@@ -1,5 +1,5 @@
 model Client {
-    id        Int      @default(autoincrement())
+    id        Int      @id @default(autoincrement())
     name      String
     phone     String
     cpfCnpj   String   @unique
