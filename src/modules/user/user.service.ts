@@ -1,8 +1,8 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { ProfileService } from 'src/profile/profile.service';
+import { ProfileService } from 'src/modules/profile/profile.service';
 
 @Injectable()
 export class UserService {

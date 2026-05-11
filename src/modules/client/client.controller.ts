@@ -1,9 +1,9 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ClientService } from './client.service';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CurrentUser } from 'src/auth/decorators/current-user';
-import { type AuthenticatedUser } from 'src/auth/types/authenticated-user';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { CurrentUser } from 'src/modules/auth/decorators/current-user';
+import { type AuthenticatedUser } from 'src/modules/auth/types/authenticated-user';
 import { CreateClientDto } from './dto/create-client.dto';
 
 @ApiTags('Client')

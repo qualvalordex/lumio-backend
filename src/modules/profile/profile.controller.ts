@@ -14,9 +14,9 @@ import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { CreateSocialLinkDto } from './dto/create-social-link.dto';
 import { UpdateSocialLinkDto } from './dto/update-social-link.dto';
-import { CurrentUser } from 'src/auth/decorators/current-user';
-import { type AuthenticatedUser } from 'src/auth/types/authenticated-user';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CurrentUser } from 'src/modules/auth/decorators/current-user';
+import { type AuthenticatedUser } from 'src/modules/auth/types/authenticated-user';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 @ApiTags('Profile')
 @ApiBearerAuth('access-token')
