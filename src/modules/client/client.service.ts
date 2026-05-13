@@ -11,18 +11,25 @@ import { UpdateClientDto } from './dto/update-client.dto';
 
 @Injectable()
 export class ClientService {
-    constructor(private readonly prismaService: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) {}
+
+    async list(userId: number) {
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user) throw new NotFoundException();
+
+        return await this.prisma.client.findMany({ where: { userId } });
+    }
 
     async create(userId: number, dto: CreateClientDto) {
         const cpfCnpj = validateCpfCnpj(dto.cpfCnpj);
 
         if (!cpfCnpj.valid) throw new BadRequestException();
 
-        const user = await this.prismaService.user.findUnique({ where: { id: userId } });
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
 
         if (!user) throw new NotFoundException();
 
-        const client = await this.prismaService.client.findUnique({
+        const client = await this.prisma.client.findUnique({
             where: {
                 userId_cpfCnpj: {
                     userId,
@@ -33,7 +40,7 @@ export class ClientService {
 
         if (client) throw new ConflictException();
 
-        const createdClient = await this.prismaService.client.create({
+        const createdClient = await this.prisma.client.create({
             data: {
                 ...dto,
                 userId,
@@ -53,11 +60,11 @@ export class ClientService {
             dto.cpfCnpj = cpfCnpj.formatted;
         }
 
-        const client = await this.prismaService.client.findUnique({ where: { id: clientId } });
+        const client = await this.prisma.client.findUnique({ where: { id: clientId } });
 
         if (!client || userId != client.userId) throw new BadRequestException();
 
-        const updatedClient = await this.prismaService.client.update({
+        const updatedClient = await this.prisma.client.update({
             data: dto,
             where: { id: client.id },
         });
