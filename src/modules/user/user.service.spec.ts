@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { ProfileService } from 'src/modules/profile/profile.service';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { ConflictException, NotFoundException } from '@nestjs/common';
@@ -24,6 +25,10 @@ describe('UserService', () => {
                             create: jest.fn(),
                         },
                     },
+                },
+                {
+                    provide: ProfileService,
+                    useValue: { createEmpty: jest.fn() },
                 },
             ],
         }).compile();
