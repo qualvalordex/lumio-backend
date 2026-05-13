@@ -7,6 +7,13 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 export class ProjectService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async list(userId: number) {
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user) throw new NotFoundException();
+
+        return await this.prisma.project.findMany({ where: { userId } });
+    }
+
     async create(userId: number, dto: CreateProjectDto) {
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
         if (!user) throw new NotFoundException();
