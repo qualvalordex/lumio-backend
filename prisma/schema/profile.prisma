@@ -1,13 +1,13 @@
 model Profile {
-    id        Int     @id @default(autoincrement())
-    bio       String?
-    avatarUrl String?
-    phone     String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  bio       String?
+  avatarUrl String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    userId Int  @unique
-    user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    socialLinks SocialLink[]
+  socialLinks SocialLink[]
 }
