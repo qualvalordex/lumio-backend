@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsDate, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateProjectDto {
     @ApiProperty()
@@ -7,15 +8,32 @@ export class UpdateProjectDto {
     @IsOptional()
     name?: string;
 
-    @ApiProperty()
-    @IsString()
+    @ApiProperty({ example: '2026-05-13' })
+    @IsDate()
+    @Type(() => Date)
     @IsOptional()
-    startDate?: string;
+    startDate?: Date;
 
-    @ApiProperty()
-    @IsString()
+    @ApiProperty({ example: '2026-06-13' })
+    @IsDate()
+    @Type(() => Date)
     @IsOptional()
-    dueDate?: string;
+    dueDate?: Date;
+
+    @ApiProperty({ example: 1500.00 })
+    @IsNumber({ maxDecimalPlaces: 2 })
+    @IsOptional()
+    quotedPrice?: number;
+
+    @ApiProperty({ example: 1200.00 })
+    @IsNumber({ maxDecimalPlaces: 2 })
+    @IsOptional()
+    agreedPrice?: number;
+
+    @ApiProperty({ example: 50 })
+    @IsInt()
+    @IsOptional()
+    includedPhotos?: number;
 
     @ApiProperty()
     @IsInt()
