@@ -1,10 +1,13 @@
 model Project {
-  id        Int       @id @default(autoincrement())
-  name      String
-  startDate DateTime?
-  dueDate   DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id             Int       @id @default(autoincrement())
+  name           String
+  startDate      DateTime?
+  dueDate        DateTime?
+  quotedPrice    Decimal?  @db.Decimal(10, 2)
+  agreedPrice    Decimal?  @db.Decimal(10, 2)
+  includedPhotos Int?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   userId Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
