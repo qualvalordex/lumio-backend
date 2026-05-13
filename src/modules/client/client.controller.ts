@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Get,
     Param,
     ParseIntPipe,
     Patch,
@@ -22,6 +23,15 @@ import { UpdateClientDto } from './dto/update-client.dto';
 @Controller('client')
 export class ClientController {
     constructor(private readonly clientService: ClientService) {}
+
+    @ApiOperation({
+        summary: 'Listar clientes',
+        description: 'Lista todos os clientes do usuário.',
+    })
+    @Get()
+    async list(@CurrentUser() user: AuthenticatedUser) {
+        return this.clientService.list(user.id);
+    }
 
     @ApiOperation({
         summary: 'Criar um cliente',
