@@ -14,4 +14,6 @@ model Project {
 
   clientId Int?
   client   Client? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  photos Photo[]
 }
