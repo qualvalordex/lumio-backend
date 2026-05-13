@@ -1,12 +1,13 @@
 model User {
-    id        Int      @id @default(autoincrement())
-    email     String   @unique
-    password  String
-    name      String
-    isActive  Boolean  @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    profile Profile?
-    clients Client[]
+  profile  Profile?
+  clients  Client[]
+  projects Project[]
 }
