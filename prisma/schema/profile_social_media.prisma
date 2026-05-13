@@ -12,6 +12,8 @@ model SocialLink {
     id   Int             @id @default(autoincrement())
     type SocialMediaType
     url  String          @db.VarChar(2048)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     profileId Int
     profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
