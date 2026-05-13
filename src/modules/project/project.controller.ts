@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ProjectService } from './project.service';
@@ -13,6 +13,15 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 @Controller('project')
 export class ProjectController {
     constructor(private readonly projectService: ProjectService) {}
+
+    @ApiOperation({
+        summary: 'Listar projetos',
+        description: 'Lista todos os projetos do usuário.',
+    })
+    @Get()
+    async list(@CurrentUser() user: AuthenticatedUser) {
+        return this.projectService.list(user.id);
+    }
 
     @ApiOperation({
         summary: 'Criar projeto',
