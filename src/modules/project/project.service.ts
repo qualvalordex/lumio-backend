@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 
 @Injectable()
 export class ProjectService {
@@ -23,5 +24,19 @@ export class ProjectService {
         });
 
         return project;
+    }
+
+    async update(userId: number, projectId: number, dto: UpdateProjectDto) {
+        const project = await this.prisma.project.findUnique({ where: { id: projectId } });
+        if (!project) throw new NotFoundException();
+
+        if (project.userId !== userId) throw new BadRequestException();
+
+        const updatedProject = await this.prisma.project.update({
+            where: { id: projectId },
+            data: dto,
+        });
+
+        return updatedProject;
     }
 }
