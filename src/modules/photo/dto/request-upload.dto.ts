@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { ArrayMinSize, IsArray, IsInt, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { ArrayMinSize, IsArray, IsIn, IsInt, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export class PhotoMetadataDto {
     @ApiProperty()
     @IsString()
     fileName!: string;
 
-    @ApiProperty()
-    @IsString()
+    @ApiProperty({ enum: ['image/jpeg'] })
+    @IsIn(['image/jpeg'])
     mimeType!: string;
 
     @ApiProperty()

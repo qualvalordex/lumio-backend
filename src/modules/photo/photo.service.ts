@@ -17,15 +17,6 @@ export class PhotoService {
         if (!project) throw new NotFoundException();
         if (project.userId !== userId) throw new BadRequestException();
 
-        if (project.includedPhotos !== null) {
-            const existingCount = await this.prisma.photo.count({ where: { projectId } });
-            if (existingCount + dto.photos.length > project.includedPhotos) {
-                throw new BadRequestException(
-                    `Limite de fotos excedido. Permitido: ${project.includedPhotos}`,
-                );
-            }
-        }
-
         const results = await Promise.all(
             dto.photos.map(async (photo) => {
                 const ext = photo.fileName.split('.').pop() ?? 'bin';

@@ -51,7 +51,6 @@ describe('PhotoService', () => {
                     useValue: {
                         project: { findUnique: jest.fn() },
                         photo: {
-                            count: jest.fn(),
                             create: jest.fn(),
                             findMany: jest.fn(),
                             updateMany: jest.fn(),
@@ -89,13 +88,6 @@ describe('PhotoService', () => {
             await expect(sut.requestUpload(1, 1, dto)).rejects.toThrow(BadRequestException);
         });
 
-        it('should throw BadRequestException when photo limit is exceeded', async () => {
-            jest.spyOn(prisma.project, 'findUnique').mockResolvedValue({ ...mockProject, includedPhotos: 5 } as never);
-            jest.spyOn(prisma.photo, 'count').mockResolvedValue(5);
-
-            await expect(sut.requestUpload(1, 1, dto)).rejects.toThrow(BadRequestException);
-        });
-
         it('should create photos and return presigned urls', async () => {
             jest.spyOn(prisma.project, 'findUnique').mockResolvedValue(mockProject as never);
             jest.spyOn(storage, 'generateUploadUrl').mockResolvedValue('https://minio/presigned');
@@ -115,17 +107,6 @@ describe('PhotoService', () => {
             );
         });
 
-        it('should check photo limit when includedPhotos is set', async () => {
-            jest.spyOn(prisma.project, 'findUnique').mockResolvedValue({ ...mockProject, includedPhotos: 10 } as never);
-            jest.spyOn(prisma.photo, 'count').mockResolvedValue(9);
-            jest.spyOn(storage, 'generateUploadUrl').mockResolvedValue('https://minio/presigned');
-            jest.spyOn(prisma.photo, 'create').mockResolvedValue(mockPhoto as never);
-
-            const result = await sut.requestUpload(1, 1, dto);
-
-            expect(prisma.photo.count).toHaveBeenCalledWith({ where: { projectId: 1 } });
-            expect(result.photos).toHaveLength(1);
-        });
     });
 
     describe('completeUpload', () => {
